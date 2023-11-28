@@ -5,11 +5,12 @@ if [ $# -ne 1 ]; then
 fi
 path=$1
 # Source the website, pingWebsite and uuidInResponse variables
-source settingsEditMe.sh
+source $path/settingsEditMe.sh
 activityLog=$path/activity.log
 apiOutput=$path/apiOutput.txt
 
 #Hit the cb api to build DManpa
+>$apiOutput #ensure this is empty
 python3 $path/api-https.py $website $path/build_sequence.json > $apiOutput
 # If this sequence ID exists in the output, grpc etc is working
 if grep -q "$uuidInResponse" $apiOutput
