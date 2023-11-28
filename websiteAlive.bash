@@ -1,20 +1,26 @@
 #!/bin/bash
-
-path=/home/oliver/Dropbox/scripts/websiteChecker/
+if [ $# -ne 1 ]; then
+    echo "No path given to $0. Exiting"
+    exit 1
+fi
+path=$1
+# Source the website, pingWebsite and uuidInResponse variables
+source settingsEditMe.sh
 activityLog=$path/activity.log
 apiOutput=$path/apiOutput.txt
 
 #Hit the cb api to build DManpa
-python3 $path/api-https.py glycam.org $path/build_sequence.json > $apiOutput
+python3 $path/api-https.py $website $path/build_sequence.json > $apiOutput
 # If this sequence ID exists in the output, grpc etc is working
-if grep -q "fc6085c0-822c-5655-b5be-88da496814cb" $apiOutput
+if grep -q "$uuidInResponse" $apiOutput
 then
     #toDo # kick the watchdog
-    echo "$(date) : Website is fine" >> $activityLog    
+    echo "$(date) : $website is fine" >> $activityLog    
 else
-    if [ "$(ping -c 1 google.com)" ]; then
-        echo "$(date) : Both google and glycam are unreachable, likely your internet is down dog" >> $activityLog
+    if [ "$(ping -c 1 $pingWebsite)" ]; then
+        echo "$(date) : Both $pingWebsite and $website are unreachable, likely your internet is down dog" >> $activityLog
     else
-        echo "$(date) : Google is up but glycam.org tain't Fine Nor Dandy, send email now" >> $activityLog
+        echo "$(date) : $pingWebsite is ping-able but $website isn't responding normally to api requests, send email to $emailTo using this email server $emailServer" >> $activityLog
+        #toDo # send the email
     fi
 fi
