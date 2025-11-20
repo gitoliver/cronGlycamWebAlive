@@ -18,8 +18,18 @@ path=/home/oliver/Programs/cronGlycamWebAlive/
 When checking/installing, you can alter frequency to every other minute with e.g. 0-59/2
 
 # Usage
-### websiteAlive.bash
-Look at activity.log for the latest information.
+I setup my bashrc like this:
 
-### crudCleaner.bash
-Keeps the logs short and removes all the build_sequence json responses that pile up.
+```bash
+# Checking if website is alive and reporting it to me everytime I open a terminal. Hacky but whatever.
+tail -n1 ~/Programs/cronGlycamWebAlive/activity.log
+echo "$(date) <- current date"
+```
+
+So every time I open a terminal I get a message on top about the status of the website. If it's been a while, I can manually trigger a check by typing wa (website alive) after setting this up in my bash_aliases:
+```bash
+alias was='tail -n1 ~/Programs/cronGlycamWebAlive/activity.log'
+alias wa='/home/oliver/Programs/cronGlycamWebAlive/websiteAlive.bash /home/oliver/Programs/cronGlycamWebAlive/ >> /home/oliver/Programs/cronGlycamWebAlive/webSiteAliveCron.log 2>&1; was'
+```
+
+
