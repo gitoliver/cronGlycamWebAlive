@@ -1,15 +1,15 @@
-# Requirments
-python3 (Likely Python 3.8 is necessary)
-cron
+# Requirements
+- python3 (Likely Python 3.8 is necessary)
+- cron
 
 # Setup
-Ensure the bash scripts and settingsEditMe.sh are executable on your system (chmod).
-Edit your cron entry
+- Ensure the bash scripts and settingsEditMe.sh are executable on your system (chmod).
+- Edit your cron by following these steps: 
 
-```bash
-crontab -e
-```
-Change the path variable to match your system (pwd):
+  ```bash
+  crontab -e
+  ```
+Change the path variable to match your system (pwd will tell you where you are):
 ```bash
 path=/home/oliver/Programs/cronGlycamWebAlive/
 0-59/10 * * * * $path/websiteAlive.bash $path  >> $path/webSiteAliveCron.log 2>&1
